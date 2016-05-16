@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
+import java.util.logging.Level; 
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -23,7 +23,7 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
 		if(!this.getMessageConfig().contains("Messages.")){
 			this.getMessageConfig().set("Messages.NotHalfSleep", "&YELLOW&&PLAYERSLEEP&/&HALFSLEEP& Players are sleaping that need to be sleeping for the time to be set to day");
-			this.getMessageConfig().set("Messages.HalfSleeping", "&YELLOW&&Half& of the server is asleep so the time has been set to day");
+			this.getMessageConfig().set("Messages.HalfSleeping", "&YELLOW&&HALF& of the server is asleep so the time has been set to day");
 			this.saveMessageConfig();
 		}
 		if(!this.getPlayersConfig().contains("Players")){
