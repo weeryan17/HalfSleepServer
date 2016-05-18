@@ -135,7 +135,11 @@ public class Main extends JavaPlugin implements Listener {
 					finnal = finnal + "§9";
 				}
 				break;
-				case "HALFSLEEP" :{
+				case "PLAYERSSLEEPING" :{
+					finnal = finnal + inBed;
+				}
+				break;
+				case "AMOUNTNEEDED" :{
 					finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum());
 				}
 				break;
@@ -164,11 +168,11 @@ public class Main extends JavaPlugin implements Listener {
 				finnal = finnal + "§9";
 			}
 			break;
-			case "PLAYERSLEEP" :{
+			case "PLAYERSSLEEPING" :{
 				finnal = finnal + inBed;
 			}
 			break;
-			case "HALFSLEEP" :{
+			case "AMOUNTNEEDED" :{
 				finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum());
 			}
 			break;
