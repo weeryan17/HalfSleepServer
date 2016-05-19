@@ -22,7 +22,7 @@ public class Main extends JavaPlugin implements Listener {
 	public void onEnable(){
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
 		if(!this.getMessageConfig().contains("Messages.")){
-			this.getMessageConfig().set("Messages.NotHalfSleep", "&YELLOW&&PLAYERSLEEP&/&HALFSLEEP& Players are sleaping that need to be sleeping for the time to be set to day");
+			this.getMessageConfig().set("Messages.NotHalfSleep", "&YELLOW&&PLAYERSSLEEPING&/&AMOUNTNEEDED& Players are sleaping that need to be sleeping for the time to be set to day");
 			this.getMessageConfig().set("Messages.HalfSleeping", "&YELLOW&&HALF& of the server is asleep so the time has been set to day");
 			this.saveMessageConfig();
 		}
@@ -143,6 +143,14 @@ public class Main extends JavaPlugin implements Listener {
 					finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum());
 				}
 				break;
+				case "PLAYERSLEEP" :{
+					finnal = finnal + inBed;
+				}
+				break;
+				case "HALFSLEEP" :{
+					finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum());
+				}
+				break;
 				default :{
 					finnal = finnal + peice;
 				}
@@ -173,6 +181,14 @@ public class Main extends JavaPlugin implements Listener {
 			}
 			break;
 			case "AMOUNTNEEDED" :{
+				finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum());
+			}
+			break;
+			case "PLAYERSLEEP" :{
+				finnal = finnal + inBed;
+			}
+			break;
+			case "HALFSLEEP" :{
 				finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum());
 			}
 			break;
