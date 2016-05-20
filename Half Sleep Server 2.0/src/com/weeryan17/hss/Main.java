@@ -53,6 +53,11 @@ public class Main extends JavaPlugin implements Listener {
 				}
 				for(World world : Bukkit.getWorlds()){
 					world.setTime(1000L);
+					if(world.hasStorm()){
+						world.setStorm(false);
+					} else if(world.isThundering()){
+						world.setThundering(false);
+					}
 				}
 			} else {
 				for(Player p : Bukkit.getOnlinePlayers()){
@@ -135,6 +140,10 @@ public class Main extends JavaPlugin implements Listener {
 					finnal = finnal + "§9";
 				}
 				break;
+				case "GRAY" :{
+					finnal = finnal + "§7";
+				}
+				break;
 				case "PLAYERSSLEEPING" :{
 					finnal = finnal + inBed;
 				}
@@ -174,6 +183,10 @@ public class Main extends JavaPlugin implements Listener {
 			break;
 			case "BLUE" :{
 				finnal = finnal + "§9";
+			}
+			break;
+			case "GRAY" :{
+				finnal = finnal + "§7";
 			}
 			break;
 			case "PLAYERSSLEEPING" :{
