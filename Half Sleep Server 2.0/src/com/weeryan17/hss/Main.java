@@ -53,13 +53,12 @@ public class Main extends JavaPlugin implements Listener {
 						p.sendMessage(this.getAcctualMessage(this.getMessageConfig().getString("Messages.HalfSleeping"), e.getPlayer().getWorld()));
 					}
 				}
-				for(World world : Bukkit.getWorlds()){
-					world.setTime(1000L);
-					if(world.hasStorm()){
-						world.setStorm(false);
-					} else if(world.isThundering()){
-						world.setThundering(false);
-					}
+				World world = e.getPlayer().getWorld();
+				world.setTime(1000L);
+				if(world.hasStorm()){
+					world.setStorm(false);
+				} else if(world.isThundering()){
+					world.setThundering(false);
 				}
 			} else {
 				for(Player p : Bukkit.getOnlinePlayers()){
