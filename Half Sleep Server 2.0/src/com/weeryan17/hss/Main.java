@@ -137,21 +137,84 @@ public class Main extends JavaPlugin implements Listener {
 				case "DARKBLUE" :{
 					finnal = finnal + "§1";
 				}
-				break;
-				case "YELLOW" :{
-					finnal = finnal + "§e";
+				case "DARKGREEN" :{
+					finnal = finnal + "§2";
 				}
 				break;
-				case "RED" :{
-					finnal = finnal + "§c";
+				case "DARKAQUA" :{
+					finnal = finnal + "§3";
+				}
+				break;
+				case "DARKRED" :{
+					finnal = finnal + "§4";
+				}
+				break;
+				case "DARKPURPLE" :{
+					finnal = finnal + "§5";
+				}
+				break;
+				case "GOLD" :{
+					finnal = finnal + "§6";
+				}
+				break;
+				case "GRAY" :{
+					finnal = finnal + "§7";
+				}
+				break;
+				case "DARKGRAY" :{
+					finnal = finnal + "§8";
 				}
 				break;
 				case "BLUE" :{
 					finnal = finnal + "§9";
 				}
 				break;
-				case "GRAY" :{
-					finnal = finnal + "§7";
+				case "GREEN" :{
+					finnal = finnal + "§a";
+				}
+				break;
+				case "AQUA" :{
+					finnal = finnal + "§b";
+				}
+				break;
+				case "RED" :{
+					finnal = finnal + "§c";
+				}
+				break;
+				case "LIGHTPURPLE" :{
+					finnal = finnal + "§d";
+				}
+				break;
+				case "YELLOW" :{
+					finnal = finnal + "§e";
+				}
+				break;
+				case "WHITE" :{
+					finnal = finnal + "§f";
+				}
+				break;
+				case "CRAZEY" :{
+					finnal = finnal + "§k";
+				}
+				break;
+				case "BOLD" :{
+					finnal = finnal + "§l";
+				}
+				break;
+				case "STRIKE" :{
+					finnal = finnal + "§m";
+				}
+				break;
+				case "UNDERLINE" :{
+					finnal = finnal + "§n";
+				}
+				break;
+				case "ITALIC" :{
+					finnal = finnal + "§o";
+				}
+				break;
+				case "RESET" :{
+					finnal = finnal + "§r";
 				}
 				break;
 				case "PLAYERSSLEEPING" :{
