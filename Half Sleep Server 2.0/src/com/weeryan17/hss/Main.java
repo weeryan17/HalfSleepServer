@@ -50,7 +50,7 @@ public class Main extends JavaPlugin implements Listener {
 			if(inBed >= ((int)Bukkit.getOnlinePlayers().size()/2) - this.ingoredPlayerNum(e.getPlayer().getWorld())){
 				for(Player p : Bukkit.getOnlinePlayers()){
 					if(p.getWorld() == e.getPlayer().getWorld()){
-						p.sendMessage(this.getAcctualMessage(this.getMessageConfig().getString("Messages.HalfSleeping"), e.getPlayer().getWorld()));
+						p.sendMessage(this.getAcctualMessage(this.getMessageConfig().getString("Messages.HalfSleeping"), e.getPlayer().getWorld(), e.getPlayer().getName()));
 					}
 				}
 				World world = e.getPlayer().getWorld();
@@ -63,7 +63,7 @@ public class Main extends JavaPlugin implements Listener {
 			} else {
 				for(Player p : Bukkit.getOnlinePlayers()){
 					if(p.getWorld() == e.getPlayer().getWorld()){
-						p.sendMessage(this.getAcctualMessage(this.getMessageConfig().getString("Messages.NotHalfSleep"), e.getPlayer().getWorld()));
+						p.sendMessage(this.getAcctualMessage(this.getMessageConfig().getString("Messages.NotHalfSleep"), e.getPlayer().getWorld(), e.getPlayer().getName()));
 					}
 				}
 			}
@@ -126,7 +126,7 @@ public class Main extends JavaPlugin implements Listener {
 	public void saveMessageConfig(){
 		this.saveConfigs("Messages", "");
 	}
-	public String getAcctualMessage(String message, World world){
+	public String getAcctualMessage(String message, World world, String player){
 		String finnal = "";
 		for(String peice : message.split("&")){
 				switch(peice){
@@ -170,6 +170,10 @@ public class Main extends JavaPlugin implements Listener {
 					finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum(world));
 				}
 				break;
+				case "PLAYERNAME" :{
+					finnal = finnal + player;
+				}
+				break;
 				default :{
 					finnal = finnal + peice;
 				}
@@ -187,7 +191,17 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	
 	public int ingoredPlayerNum(World world){
-		return this.getIngoredPlayers().size();
+		ArrayList<String> list = this.getIngoredPlayers();
+		int num = 0;
+		for(String player : list){
+			Player p = Bukkit.getPlayer(player);
+			if(p != null){
+				if(p.getWorld() == world){
+					num++;
+				}
+			}
+		}
+		return num;
 	}
 	public ArrayList<String> getIngoredPlayers(){
 		@SuppressWarnings("unchecked")
