@@ -21,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin implements Listener {
 	public void onEnable(){
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
+		
 		if(!this.getMessageConfig().contains("Messages.")){
 			this.getMessageConfig().set("Messages.NotHalfSleep", "&YELLOW&&PLAYERSSLEEPING&/&AMOUNTNEEDED& Players are sleaping that need to be sleeping for the time to be set to day");
 			this.getMessageConfig().set("Messages.HalfSleeping", "&YELLOW&&HALF& of the server is asleep so the time has been set to day");
@@ -28,8 +29,8 @@ public class Main extends JavaPlugin implements Listener {
 		}
 		if(!this.getPlayersConfig().contains("Players")){
 			ArrayList<String> playerList = new ArrayList<String>();
-			playerList.add("RandomExamplePlayer1");
-			playerList.add("RandomExamplePlayer2");
+			playerList.add(":RandomExamplePlayer1");
+			playerList.add(":RandomExamplePlayer2");
 			this.getPlayersConfig().set("Players", playerList);
 			this.savePlayersConfig();
 		}
@@ -42,14 +43,15 @@ public class Main extends JavaPlugin implements Listener {
 		if(!list.contains(e.getPlayer().getName())){
 			inBed = 1;
 			for(Player p : Bukkit.getOnlinePlayers()){
-				if(p.isSleeping() && !list.contains(p.getName())){
+				if(p.isSleeping() && p.getWorld() == e.getPlayer().getWorld() && !list.contains(p.getName())){
 					inBed = inBed + 1;
 				}
 			}
-			if(inBed >= ((int)Bukkit.getOnlinePlayers().size()/2) - this.ingoredPlayerNum()){
+			if(inBed >= ((int)Bukkit.getOnlinePlayers().size()/2) - this.ingoredPlayerNum(e.getPlayer().getWorld())){
 				for(Player p : Bukkit.getOnlinePlayers()){
-					p.sendMessage(this.getHalfSleep());
-				
+					if(p.getWorld() == e.getPlayer().getWorld()){
+						p.sendMessage(this.getAcctualMessage(this.getMessageConfig().getString("Messages.HalfSleeping"), e.getPlayer().getWorld()));
+					}
 				}
 				for(World world : Bukkit.getWorlds()){
 					world.setTime(1000L);
@@ -61,7 +63,9 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			} else {
 				for(Player p : Bukkit.getOnlinePlayers()){
-					p.sendMessage(this.getNotHalfSleep());
+					if(p.getWorld() == e.getPlayer().getWorld()){
+						p.sendMessage(this.getAcctualMessage(this.getMessageConfig().getString("Messages.NotHalfSleep"), e.getPlayer().getWorld()));
+					}
 				}
 			}
 		}
@@ -123,11 +127,18 @@ public class Main extends JavaPlugin implements Listener {
 	public void saveMessageConfig(){
 		this.saveConfigs("Messages", "");
 	}
-	public String getNotHalfSleep(){
-		String inital = this.getMessageConfig().getString("Messages.NotHalfSleep");
+	public String getAcctualMessage(String message, World world){
 		String finnal = "";
-		for(String peice : inital.split("&")){
+		for(String peice : message.split("&")){
 				switch(peice){
+				case "BLACK" :{
+					finnal = finnal + "§0";
+				}
+				break;
+				case "DARKBLUE" :{
+					finnal = finnal + "§1";
+				}
+				break;
 				case "YELLOW" :{
 					finnal = finnal + "§e";
 				}
@@ -149,7 +160,7 @@ public class Main extends JavaPlugin implements Listener {
 				}
 				break;
 				case "AMOUNTNEEDED" :{
-					finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum());
+					finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum(world));
 				}
 				break;
 				case "PLAYERSLEEP" :{
@@ -157,7 +168,7 @@ public class Main extends JavaPlugin implements Listener {
 				}
 				break;
 				case "HALFSLEEP" :{
-					finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum());
+					finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum(world));
 				}
 				break;
 				default :{
@@ -168,51 +179,7 @@ public class Main extends JavaPlugin implements Listener {
 		}
 		return finnal;
 	}
-	public String getHalfSleep(){
-		String inital = this.getMessageConfig().getString("Messages.HalfSleeping");
-		String finnal = "";
-		for(String peice : inital.split("&")){
-			switch(peice){
-			case "YELLOW" :{
-				finnal = finnal + "§e";
-			}
-			break;
-			case "RED" :{
-				finnal = finnal + "§c";
-			}
-			break;
-			case "BLUE" :{
-				finnal = finnal + "§9";
-			}
-			break;
-			case "GRAY" :{
-				finnal = finnal + "§7";
-			}
-			break;
-			case "PLAYERSSLEEPING" :{
-				finnal = finnal + inBed;
-			}
-			break;
-			case "AMOUNTNEEDED" :{
-				finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum());
-			}
-			break;
-			case "PLAYERSLEEP" :{
-				finnal = finnal + inBed;
-			}
-			break;
-			case "HALFSLEEP" :{
-				finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum());
-			}
-			break;
-			default :{
-				finnal = finnal + peice;
-			}
-			break;
-			}
-		}
-		return finnal;
-	}
+	
 	public FileConfiguration getPlayersConfig(){
 		return this.config("IngoredPlayers", "");
 	}
@@ -220,15 +187,26 @@ public class Main extends JavaPlugin implements Listener {
 		this.saveConfigs("IngoredPlayers", "");
 	}
 	
-	public int ingoredPlayerNum(){
-		int num = 0;
+	public int ingoredPlayerNum(World world){
+		return this.getIngoredPlayers().size();
+	}
+	public ArrayList<String> getIngoredPlayers(){
 		@SuppressWarnings("unchecked")
 		ArrayList<String> list = (ArrayList<String>) this.getPlayersConfig().get("Players");
-		for(Player p : Bukkit.getOnlinePlayers()){
-			if(list.contains(p.getName())){
-				num++;
+		ArrayList<String> players = new ArrayList<String>();
+		for(String combinedName : list){
+			String[] rawName = combinedName.split(":");
+			String name = rawName[1];
+			players.add(name);
+			if(rawName[0].equals("")){
+				Player p = Bukkit.getPlayer(name);
+				if(p == null){
+					this.getLogger().log(Level.SEVERE, "The specified player " + name + " doesn't exist. Please remove them from the config!");
+				} else {
+					this.getLogger().log(Level.WARNING, "There is no UUID specifyed for " + name + " in the ignored players config. It is not needed atm because I don't use uuids yet but I'm slowly switching.");
+				}
 			}
 		}
-		return num;
+		return players;
 	}
 }
