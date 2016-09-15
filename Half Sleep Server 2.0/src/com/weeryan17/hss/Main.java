@@ -225,14 +225,6 @@ public class Main extends JavaPlugin implements Listener {
 					finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum(world));
 				}
 				break;
-				case "PLAYERSLEEP" :{
-					finnal = finnal + inBed;
-				}
-				break;
-				case "HALFSLEEP" :{
-					finnal = finnal + (((int)Bukkit.getOnlinePlayers().size() / 2) - this.ingoredPlayerNum(world));
-				}
-				break;
 				case "PLAYERNAME" :{
 					finnal = finnal + player;
 				}
