@@ -28,6 +28,7 @@ public class Main extends JavaPlugin implements Listener {
 			this.saveMessageConfig();
 		}
 		if(!this.getPlayersConfig().contains("Players")){
+			this.getPlayersConfig().set("Use Ignored Players", false);
 			ArrayList<String> playerList = new ArrayList<String>();
 			playerList.add(":RandomExamplePlayer1");
 			playerList.add(":RandomExamplePlayer2");
@@ -38,9 +39,12 @@ public class Main extends JavaPlugin implements Listener {
 	static int inBed;
 	@EventHandler
 	public void onSleep(PlayerBedEnterEvent e){
+		boolean useList = this.getPlayersConfig().getBoolean("Use Ignored Players");
 		@SuppressWarnings("unchecked")
 		ArrayList<String> list = (ArrayList<String>) this.getPlayersConfig().get("Players");
-		if(!list.contains(e.getPlayer().getName())){
+		if(list.contains(e.getPlayer().getName()) && useList){
+			
+		} else {
 			inBed = 1;
 			for(Player p : Bukkit.getOnlinePlayers()){
 				if(p.isSleeping() && p.getWorld() == e.getPlayer().getWorld() && !list.contains(p.getName())){
